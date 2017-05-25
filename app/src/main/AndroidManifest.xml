@@ -20,6 +20,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".PermissionControllerActivity" />
+        <receiver android:name=".CalenderBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PROVIDER_CHANGED"/>
+                <data android:scheme="content"/>
+                <data android:host="com.android.calendar"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
