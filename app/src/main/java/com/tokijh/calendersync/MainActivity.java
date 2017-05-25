@@ -61,7 +61,20 @@ public class MainActivity extends AppCompatActivity {
                 CalendarContract.Calendars.CALENDAR_COLOR,
                 CalendarContract.Calendars.VISIBLE,
                 CalendarContract.Calendars.OWNER_ACCOUNT,
-                CalendarContract.Calendars.VISIBLE
+                CalendarContract.Calendars.VISIBLE,
+
+                CalendarContract.Calendars.ACCOUNT_NAME,
+                CalendarContract.Calendars.ACCOUNT_TYPE,
+                CalendarContract.Calendars.NAME,
+                CalendarContract.Calendars._ID,
+                CalendarContract.Calendars._SYNC_ID,
+                CalendarContract.Calendars.ALLOWED_ATTENDEE_TYPES,
+                CalendarContract.Calendars.ALLOWED_AVAILABILITY,
+                CalendarContract.Calendars.ALLOWED_REMINDERS,
+                CalendarContract.Calendars.CALENDAR_TIME_ZONE,
+                CalendarContract.Calendars.CALENDAR_LOCATION,
+                CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL,
+                CalendarContract.Calendars.SYNC_EVENTS
         };
         ContentResolver contentResolver = getContentResolver();
         Cursor cursor = contentResolver.query(
@@ -81,12 +94,14 @@ public class MainActivity extends AppCompatActivity {
 
         while (cursor.moveToNext()) {
             String name = cursor.getString(0);
+            String CALENDAR_COLOR = cursor.getString(2);
             String displayName = cursor.getString(1);
             Boolean selected = !cursor.getString(3).equals("0");
             String owner = cursor.getString(4);
             String VISIBLE = cursor.getString(5);
 
-            Log.d(TAG, "name : " + name + " displayName : " + displayName + " selected : " + selected + " Owner : " + owner + " VISIBLE : " + VISIBLE);
+            Log.d(TAG, "name : " + name + " CALENDAR_COLOR : " + CALENDAR_COLOR + " displayName : " + displayName + " selected : " + selected + " Owner : " + owner + " VISIBLE : " + VISIBLE);
+            Log.e(TAG, cursor.getString(6) + " " + cursor.getString(7) + " " + cursor.getString(8) + " " + cursor.getString(9) + " " + cursor.getString(10) + " " + cursor.getString(11) + " " + cursor.getString(12) + " " + cursor.getString(13) + " " + cursor.getString(14) + " " + cursor.getString(15) + " " + cursor.getString(16) + " " + cursor.getString(17));
         }
         cursor.close();
     }
@@ -105,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 CalendarContract.Calendars.CONTENT_URI,
                 FIELDS,
                 CalendarContract.Calendars.OWNER_ACCOUNT + "=?",
-                new String[]{"tokijh@coinnara.kr"},
+                new String[]{"tokijh2@direct.co.kr"},
                 null,
                 null);
 
@@ -136,17 +151,18 @@ public class MainActivity extends AppCompatActivity {
     private void createAccount() {
         if ("".equals(readCalendarsAccount())) {
             ContentValues cv = new ContentValues();
-            cv.put(CalendarContract.Calendars.ACCOUNT_NAME, "Coinnara");
+            cv.put(CalendarContract.Calendars.ACCOUNT_NAME, "Direct");
             cv.put(CalendarContract.Calendars.ACCOUNT_TYPE, "com.tokijh.calendersync");
-            cv.put(CalendarContract.Calendars.NAME, "MAILNARA");
+            cv.put(CalendarContract.Calendars.NAME, "DIRECT");
             cv.put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, "MAILNARA");
-            cv.put(CalendarContract.Calendars.OWNER_ACCOUNT, "tokijh@coinnara.kr");
+            cv.put(CalendarContract.Calendars.OWNER_ACCOUNT, "tokijh2@direct.co.kr");
             cv.put(CalendarContract.Calendars.SYNC_EVENTS, "1");
             cv.put(CalendarContract.Calendars.VISIBLE, "1");
+            cv.put(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL, CalendarContract.Calendars.CAL_ACCESS_OWNER);
 
             ContentResolver contentResolver = getContentResolver();
 //        contentResolver.insert(Uri.parse("content://com.android.calendar/calendars"), cv);
-            contentResolver.insert(asSyncAdapter(CalendarContract.Calendars.CONTENT_URI, "coinnara", "com.tokijh.calendersync"), cv).toString();
+            contentResolver.insert(asSyncAdapter(CalendarContract.Calendars.CONTENT_URI, "direct", "com.tokijh.calendersync"), cv).toString();
         }
     }
 
